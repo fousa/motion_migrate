@@ -1,5 +1,5 @@
 require "motion_migrate/version"
+require "motion_migrate/model/property"
 
 module MotionMigrate
-  # Your code goes here...
 end
