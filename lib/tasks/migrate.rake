@@ -1,4 +1,5 @@
 require "nokogiri"
+require 'fileutils'
 
 require "motion_migrate/motion_generate/entity"
 require "motion_migrate/motion_generate/property"
@@ -14,6 +15,18 @@ namespace :db do
 
   desc "Go back to the previous version of the database model."
   task :rollback do
+    if version = MotionMigrate::IO.current_schema_version
+      if version == 1
+        puts "--- Can't rollback schema when version is 1."
+      else
+        schema = MotionMigrate::IO.current_schema
+        MotionMigrate::IO.write_current_schema(version - 1)
+        FileUtils.rm_rf(schema)
+        puts "--- Data model rolled back to version #{version - 1}."
+      end
+    else
+      puts "--- No schema found in this project."
+    end
   end
 
   namespace :schema do

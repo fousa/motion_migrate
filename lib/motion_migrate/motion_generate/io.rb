@@ -49,16 +49,6 @@ module MotionMigrate
 
         xcdatamodeld_path(Nokogiri::XML(File.open(plist)).at_xpath("/plist/dict/string").text)
       end
-      
-      protected
-
-      def create_db
-        FileUtils.mkdir_p(File.join("db", "schema.xcdatamodeld"))
-      end
-
-      def xcdatamodeld_path(*args)
-        File.join(["db", "schema.xcdatamodeld"] + args)
-      end
 
       def write_current_schema(version)
         File.open(xcdatamodeld_path(".xccurrentversion"), "w") do |file|
@@ -73,6 +63,16 @@ module MotionMigrate
 </plist>
           PLIST
         end
+      end
+      
+      protected
+
+      def create_db
+        FileUtils.mkdir_p(File.join("db", "schema.xcdatamodeld"))
+      end
+
+      def xcdatamodeld_path(*args)
+        File.join(["db", "schema.xcdatamodeld"] + args)
       end
     end
   end
