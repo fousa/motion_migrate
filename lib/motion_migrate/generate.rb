@@ -8,7 +8,7 @@ module MotionMigrate
     class << self
       def build
         models = Dir.glob("app/models/*.rb")
-        raise "#{"-" * 112}\n--- No models defined in 'app/models', add models to this folder if you want to generate the database model. ---\n#{"-" * 112}" if models.count == 0
+        raise "--- No models defined in 'app/models', add models to this folder if you want to generate the database model." if models.count == 0
         
         models.each do |filename|
           File.open(filename) { |file| eval(file.read) }

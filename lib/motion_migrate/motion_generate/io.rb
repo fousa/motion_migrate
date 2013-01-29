@@ -26,14 +26,23 @@ module MotionMigrate
             File.symlink("../db/schema.xcdatamodeld", "resources/schema.xcdatamodeld")
           end
 
-          length = 40 + version.to_s.length
-          puts "#{"-" * length}\n--- Data model migrated to version #{version} ---\n#{"-" * length}"
+          puts "--- Data model migrated to version #{version}."
         else
           length = 38 + version.to_s.length
-          puts "#{"-" * length}\n--- Data model already at version #{version} ---\n#{"-" * length}"
+          puts "--- Data model already at version #{version}."
         end
       end
 
+      def current_schema_version
+        return nil unless path = current_schema
+
+        version = nil
+        path.match(/\.([0-9]+)\.xcdatamodel$/) do |match|
+          version = match[1].to_i
+        end
+        version
+      end
+      
       protected
 
       def create_db
@@ -51,16 +60,6 @@ module MotionMigrate
         xcdatamodeld_path(Nokogiri::XML(File.open(plist)).at_xpath("/plist/dict/string").text)
       end
 
-      def current_schema_version
-        return nil unless path = current_schema
-
-        version = nil
-        path.match(/\.([0-9]+)\.xcdatamodel$/) do |match|
-          version = match[1].to_i
-        end
-        version
-      end
-      
       def write_current_schema(version)
         File.open(xcdatamodeld_path(".xccurrentversion"), "w") do |file|
           file.write(<<-PLIST)

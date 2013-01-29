@@ -22,5 +22,10 @@ namespace :db do
 
   desc "Show the current version of the database model scheme."
   task :version do
+    if version = MotionMigrate::IO.current_schema_version
+      puts "--- Data model is currently at version #{version}."
+    else
+      puts "--- No schema found in this project."
+    end
   end
 end
