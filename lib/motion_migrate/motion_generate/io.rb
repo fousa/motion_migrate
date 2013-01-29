@@ -42,6 +42,13 @@ module MotionMigrate
         end
         version
       end
+
+      def current_schema
+        plist = xcdatamodeld_path(".xccurrentversion")
+        return nil unless File.exists?(plist)
+
+        xcdatamodeld_path(Nokogiri::XML(File.open(plist)).at_xpath("/plist/dict/string").text)
+      end
       
       protected
 
@@ -51,13 +58,6 @@ module MotionMigrate
 
       def xcdatamodeld_path(*args)
         File.join(["db", "schema.xcdatamodeld"] + args)
-      end
-
-      def current_schema
-        plist = xcdatamodeld_path(".xccurrentversion")
-        return nil unless File.exists?(plist)
-
-        xcdatamodeld_path(Nokogiri::XML(File.open(plist)).at_xpath("/plist/dict/string").text)
       end
 
       def write_current_schema(version)

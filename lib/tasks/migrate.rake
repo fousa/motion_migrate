@@ -16,16 +16,23 @@ namespace :db do
   task :rollback do
   end
 
-  desc "Dump the current version of the database model scheme."
-  task :schema do
-  end
+  namespace :schema do
+    desc "Dump the current version of the database model scheme."
+    task :dump do
+      if current_schema = MotionMigrate::IO.current_schema
+        puts File.open(File.join(current_schema, "contents")).read
+      else
+        puts "--- No schema found in this project."
+      end
+    end
 
-  desc "Show the current version of the database model scheme."
-  task :version do
-    if version = MotionMigrate::IO.current_schema_version
-      puts "--- Data model is currently at version #{version}."
-    else
-      puts "--- No schema found in this project."
+    desc "Show the current version of the database model scheme."
+    task :version do
+      if version = MotionMigrate::IO.current_schema_version
+        puts "--- Data model is currently at version #{version}."
+      else
+        puts "--- No schema found in this project."
+      end
     end
   end
 end
