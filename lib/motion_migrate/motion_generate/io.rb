@@ -29,7 +29,7 @@ module MotionMigrate
           length = 40 + version.to_s.length
           puts "#{"-" * length}\n--- Data model migrated to version #{version} ---\n#{"-" * length}"
         else
-          length = 39 + version.to_s.length
+          length = 38 + version.to_s.length
           puts "#{"-" * length}\n--- Data model already at version #{version} ---\n#{"-" * length}"
         end
       end
