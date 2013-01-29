@@ -1,5 +1,9 @@
 require 'helper'
 
+require "motion_migrate/motion_generate/entity"
+require "motion_migrate/motion_generate/property"
+require "motion_migrate/generate"
+
 module MotionMigrate
   describe "property definitions in the model" do
     before do
@@ -25,7 +29,7 @@ module MotionMigrate
       it "should be able to define #{type}" do
         MotionMigrate::Model.property(:field, type).should == { :name => :field, 
                                                                 :attributeType => type.split("_").each{|word| word.capitalize! }.join(" "), 
-                                                                :optional=>"NO" }
+                                                                :optional=>"YES" }
       end
     end
 

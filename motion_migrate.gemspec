@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'motion_migrate/version'
+require 'version'
 
 Gem::Specification.new do |gem|
   gem.name          = "motion_migrate"
@@ -13,10 +13,9 @@ Gem::Specification.new do |gem|
   gem.homepage      = "http://fousa.be"
 
   gem.files         = `git ls-files`.split($/)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'nokogiri'
+  gem.add_dependency 'nokogiri'
 end

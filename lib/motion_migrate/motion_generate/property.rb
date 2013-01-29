@@ -1,5 +1,5 @@
 module MotionMigrate
-  module MotionModel
+  module MotionGenerate 
     module Property
       def self.included(base)
         base.extend(ClassMethods)
@@ -16,34 +16,30 @@ module MotionMigrate
             attributeType: core_data_type(type)
           }
           attributes.merge!(core_data_attributes(type, options))
-          model_metadata[:attributes][name] = attributes
+          properties << attributes
+          attributes
         end
 
-        def model_metadata(entity_class = nil)
-          entity_class ||= name
-
-          @@models ||= {}
-          @@models[entity_class] ||= {
-            name: entity_class,
-            attributes: {},
-            relationships: {}
-          }
+        def properties
+          @@properties ||= []
         end
 
         def raise_if_type_not_allowed(type)
           unless type_allowed?(type)
             raise <<-ERROR
-  The type must be one of the following:
-    - :string
-    - :integer_16
-    - :integer_32
-    - :integer_64
-    - :decimal
-    - :double
-    - :float
-    - :boolean
-    - :date
-    - :binary_data
+------------------------------------------------
+---- The type must be one of the following: ----
+----   - :string                            ----
+----   - :integer_16                        ----
+----   - :integer_32                        ----
+----   - :integer_64                        ----
+----   - :decimal                           ----
+----   - :double                            ----
+----   - :float                             ----
+----   - :boolean                           ----
+----   - :date                              ----
+----   - :binary_data                       ----
+------------------------------------------------
             ERROR
           end
         end
@@ -66,32 +62,34 @@ module MotionMigrate
         def raise_if_option_not_allowed(type, option)
           unless option_allowed?(type, option)
             raise <<-ERROR
-  The option must be one of the following:
-
-    For type :string:
-      - :min
-      - :max
-      - :default
-      - :regex
-
-    For type :boolean:
-      - :default
-
-    For type :date, :integer_16, :integer_32, :integer_64, :decimal, :double or :float:
-      - :min
-      - :max
-      - :default
-
-    For type :binary_data:
-      - :external_storage
-
-    Options allowed for all types:
-      - :required
-      - :transient
-      - :indexed
-      - :spotlight
-      - :truth_file
-      - :syncable
+-----------------------------------------------------------------------------------------------
+---- The option must be one of the following:                                              ----
+----                                                                                       ----
+----   For type :string:                                                                   ----
+----     - :min                                                                            ----
+----     - :max                                                                            ----
+----     - :default                                                                        ----
+----     - :regex                                                                          ----
+----                                                                                       ----
+----   For type :boolean:                                                                  ----
+----     - :default                                                                        ----
+----                                                                                       ----
+----   For type :date, :integer_16, :integer_32, :integer_64, :decimal, :double or :float: ----
+----     - :min                                                                            ----
+----     - :max                                                                            ----
+----     - :default                                                                        ----
+----                                                                                       ----
+----   For type :binary_data:                                                              ----
+----     - :external_storage                                                               ----
+----                                                                                       ----
+----   Options allowed for all types:                                                      ----
+----     - :required                                                                       ----
+----     - :transient                                                                      ----
+----     - :indexed                                                                        ----
+----     - :spotlight                                                                      ----
+----     - :truth_file                                                                     ----
+----     - :syncable                                                                       ----
+-----------------------------------------------------------------------------------------------
             ERROR
           end
         end
@@ -131,7 +129,7 @@ module MotionMigrate
 
         def core_data_attributes(type, options)
           attributes = {
-            optional: core_data_boolean(false)
+            optional: core_data_boolean(true)
           }
 
           options.each do |key, value|

@@ -1,3 +1,3 @@
-require "bundler/gem_tasks"
+require 'bundler'
+Bundler.require
 
-Dir["tasks/**/*.rake"].sort.each { |ext| load ext }
