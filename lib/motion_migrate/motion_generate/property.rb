@@ -16,12 +16,13 @@ module MotionMigrate
             attributeType: core_data_type(type)
           }
           attributes.merge!(core_data_attributes(type, options))
-          properties << attributes
+          properties[self.entity_name] = {} if properties[self.entity_name].nil?
+          properties[self.entity_name][name] = attributes
           attributes
         end
 
         def properties
-          @@properties ||= []
+          @@properties ||= {}
         end
 
         def raise_if_type_not_allowed(type)

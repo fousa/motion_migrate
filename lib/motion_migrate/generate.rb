@@ -18,7 +18,7 @@ module MotionMigrate
           xml.model(database_model_attributes) do
             ObjectSpace.each_object(Class).select { |klass| klass < MotionMigrate::Model }.each do |entity|
               xml.entity(:name => entity.entity_name, :representedClassName => entity.entity_name, :syncable => "YES") do
-                entity.properties.each do |property|
+                entity.properties[entity.entity_name].each do |name, property|
                   xml.attribute(property)
                 end
               end
