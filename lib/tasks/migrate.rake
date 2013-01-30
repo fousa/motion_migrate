@@ -12,7 +12,8 @@ namespace :db do
   desc "Generate a version of the current database model as described in the models."
   task :migrate do
     schema_xml = MotionMigrate::Generate.build
-    MotionMigrate::IO.write(schema_xml)
+    puts schema_xml
+    # MotionMigrate::IO.write(schema_xml)
   end
 
   desc "Go back to the previous version of the database model."

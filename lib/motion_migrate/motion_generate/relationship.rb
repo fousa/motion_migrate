@@ -10,6 +10,10 @@ module MotionMigrate
           relationship(name, :belongs_to, options)
         end
 
+        def has_many(name, options={})
+          relationship(name, :has_many, options)
+        end
+
         def relationship(name, type, options={})
           options.each { |key, value| raise_if_relationship_option_not_allowed(type, key) }
 
