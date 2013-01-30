@@ -8,14 +8,16 @@ module MotionMigrate
       module ClassMethods
         def property(name, type, options={})
           type = type.to_sym
-          raise_if_type_not_allowed(type)
-          options.each { |key, value| raise_if_option_not_allowed(type, key) }
+
+          raise_if_property_type_not_allowed(type)
+          options.each { |key, value| raise_if_property_option_not_allowed(type, key) }
 
           attributes = {
             name: name,
-            attributeType: core_data_type(type)
+            attributeType: core_data_string(type),
+            optional: core_data_boolean(true)
           }
-          attributes.merge!(core_data_attributes(type, options))
+          attributes.merge!(core_data_property_attributes(type, options))
           properties[self.entity_name] = {} if properties[self.entity_name].nil?
           properties[self.entity_name][name] = attributes
           attributes
@@ -25,8 +27,8 @@ module MotionMigrate
           @@properties ||= {}
         end
 
-        def raise_if_type_not_allowed(type)
-          unless type_allowed?(type)
+        def raise_if_property_type_not_allowed(type)
+          unless property_type_allowed?(type)
             raise <<-ERROR
 ------------------------------------------------
 ---- The type must be one of the following: ----
@@ -45,7 +47,7 @@ module MotionMigrate
           end
         end
 
-        def type_allowed?(type)
+        def property_type_allowed?(type)
           [
             :string, 
             :integer_16, 
@@ -60,8 +62,8 @@ module MotionMigrate
           ].include?(type)
         end
 
-        def raise_if_option_not_allowed(type, option)
-          unless option_allowed?(type, option)
+        def raise_if_property_option_not_allowed(type, option)
+          unless property_option_allowed?(type, option)
             raise <<-ERROR
 -----------------------------------------------------------------------------------------------
 ---- The option must be one of the following:                                              ----
@@ -95,7 +97,7 @@ module MotionMigrate
           end
         end
 
-        def option_allowed?(type, option)
+        def property_option_allowed?(type, option)
           type = :number if [
             :integer_16, 
             :integer_32, 
@@ -124,14 +126,8 @@ module MotionMigrate
           allowed_options.include?(option)
         end
 
-        def core_data_type(type)
-          type.to_s.split("_").each{|word| word.capitalize! }.join(" ")
-        end
-
-        def core_data_attributes(type, options)
-          attributes = {
-            optional: core_data_boolean(true)
-          }
+        def core_data_property_attributes(type, options)
+          attributes = {}
 
           options.each do |key, value|
             case key
@@ -174,14 +170,6 @@ module MotionMigrate
             end
           end
           attributes
-        end
-
-        def core_data_boolean(value)
-          value == true ? "YES" : "NO"
-        end
-
-        def core_data_date(value)
-          (value.to_time.to_i - Date.new(2001, 1, 1).to_time.to_i).to_s
         end
       end
     end

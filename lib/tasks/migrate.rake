@@ -2,7 +2,9 @@ require "nokogiri"
 require 'fileutils'
 
 require "motion_migrate/motion_generate/entity"
+require "motion_migrate/motion_generate/parser"
 require "motion_migrate/motion_generate/property"
+require "motion_migrate/motion_generate/relationship"
 require "motion_migrate/generate"
 require "motion_migrate/motion_generate/io"
 

@@ -1,7 +1,9 @@
-require 'helper'
+require 'date'
 
 require "motion_migrate/motion_generate/entity"
+require "motion_migrate/motion_generate/parser"
 require "motion_migrate/motion_generate/property"
+require "motion_migrate/motion_generate/relationship"
 require "motion_migrate/generate"
 
 module MotionMigrate

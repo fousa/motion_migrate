@@ -1,7 +1,9 @@
 module MotionMigrate
   class Model
     include MotionMigrate::MotionGenerate::Entity
+    include MotionMigrate::MotionGenerate::Parser
     include MotionMigrate::MotionGenerate::Property
+    include MotionMigrate::MotionGenerate::Relationship
   end
 
   class Generate
@@ -20,7 +22,10 @@ module MotionMigrate
               xml.entity(:name => entity.entity_name, :representedClassName => entity.entity_name, :syncable => "YES") do
                 entity.properties[entity.entity_name].each do |name, property|
                   xml.attribute(property)
-                end
+                end unless entity.properties[entity.entity_name].nil?
+                entity.relationships[entity.entity_name].each do |name, relationship|
+                  xml.relationship(relationship)
+                end unless entity.relationships[entity.entity_name].nil?
               end
             end
           end
