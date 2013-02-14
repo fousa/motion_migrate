@@ -19,15 +19,15 @@ namespace :db do
   task :rollback do
     if version = MotionMigrate::IO.current_schema_version
       if version == 1
-        puts "--- Can't rollback schema when version is 1."
+        puts "! Can't rollback schema when version is 1."
       else
         schema = MotionMigrate::IO.current_schema
         MotionMigrate::IO.write_current_schema(version - 1)
         FileUtils.rm_rf(schema)
-        puts "--- Data model rolled back to version #{version - 1}."
+        puts "# Data model rolled back to version #{version - 1}."
       end
     else
-      puts "--- No schema found in this project."
+      puts "! No schema found in this project."
     end
   end
 
@@ -37,16 +37,16 @@ namespace :db do
       if current_schema = MotionMigrate::IO.current_schema
         puts File.open(File.join(current_schema, "contents")).read
       else
-        puts "--- No schema found in this project."
+        puts "! No schema found in this project."
       end
     end
 
     desc "Show the current version of the database model scheme."
     task :version do
       if version = MotionMigrate::IO.current_schema_version
-        puts "--- Data model is currently at version #{version}."
+        puts "# Data model is currently at version #{version}."
       else
-        puts "--- No schema found in this project."
+        puts "! No schema found in this project."
       end
     end
   end

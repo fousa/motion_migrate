@@ -26,10 +26,10 @@ module MotionMigrate
             File.symlink("../db/schema.xcdatamodeld", "resources/schema.xcdatamodeld")
           end
 
-          puts "--- Data model migrated to version #{version}."
+          puts "# Data model migrated to version #{version}."
         else
           length = 38 + version.to_s.length
-          puts "--- Data model already at version #{version}."
+          puts "# Data model already at version #{version}."
         end
       end
 

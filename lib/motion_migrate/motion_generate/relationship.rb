@@ -38,34 +38,32 @@ module MotionMigrate
         def raise_if_relationship_option_not_allowed(type, option)
           unless relationship_option_allowed?(type, option)
             raise <<-ERROR
---------------------------------------------------
----- The option must be one of the following: ----
-----                                          ----
-----   For type :belongs_to:                  ----
-----     - :required                          ----
-----     - :min                               ----
-----     - :max                               ----
-----     - :deletion_rule                     ----
-----     - :class_name                        ----
-----     - :inverse_of                        ----
-----     - :syncable                          ----
-----     - :spotlight                         ----
-----     - :truth_file                        ----
-----     - :transient                         ----
-----                                          ----
-----   For type :has_many:                    ----
-----     - :required                          ----
-----     - :min                               ----
-----     - :max                               ----
-----     - :deletion_rule                     ----
-----     - :class_name                        ----
-----     - :inverse_of                        ----
-----     - :syncable                          ----
-----     - :ordered                           ----
-----     - :spotlight                         ----
-----     - :truth_file                        ----
-----     - :transient                         ----
---------------------------------------------------
+! The option must be one of the following: 
+!                                          
+!   For type :belongs_to:                  
+!     :required                          
+!     :min                               
+!     :max                               
+!     :deletion_rule                     
+!     :class_name                        
+!     :inverse_of                        
+!     :syncable                        
+!     :spotlight                      
+!     :truth_file                    
+!     :transient                    
+!                                  
+!   For type :has_many:           
+!     :required                  
+!     :min                      
+!     :max                     
+!     :deletion_rule          
+!     :class_name            
+!     :inverse_of           
+!     :syncable            
+!     :ordered            
+!     :spotlight         
+!     :truth_file       
+!     :transient       
             ERROR
           end
         end
@@ -73,11 +71,9 @@ module MotionMigrate
         def raise_if_relationship_options_missing(options)
           unless relationship_options_complete?(options)
             raise <<-ERROR
---------------------------------------------------
----- One of these options are required: ----
-----     - :class_name                        ----
-----     - :inverse_of                        ----
---------------------------------------------------
+! One of these options are required: 
+!   :class_name
+!   :inverse_of
             ERROR
           end
         end
@@ -94,12 +90,10 @@ module MotionMigrate
         def raise_if_deletion_rule_not_allowed(options)
           unless deletion_rule_allowed?(options)
             raise <<-ERROR
---------------------------------------------------
----- One of these deletion rules are allowed: ----
-----     - :nullify                           ----
-----     - :cascade                           ----
-----     - :deny                              ----
---------------------------------------------------
+! One of these deletion rules are allowed:
+!   :nullify 
+!   :cascade
+!   :deny
             ERROR
           end
         end
