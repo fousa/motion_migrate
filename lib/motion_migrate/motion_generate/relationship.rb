@@ -23,7 +23,8 @@ module MotionMigrate
           attributes = {
             name: name,
             optional: core_data_boolean(true),
-            deletionRule: core_data_string(:no_action)
+            deletionRule: core_data_string(:no_action),
+            syncable: core_data_boolean(true)
           }
           attributes.merge!(core_data_relationship_attributes(type, options))
           relationships[self.entity_name] = {} if relationships[self.entity_name].nil?
@@ -47,7 +48,6 @@ module MotionMigrate
 !     :deletion_rule                     
 !     :class_name                        
 !     :inverse_of                        
-!     :syncable                        
 !     :spotlight                      
 !     :truth_file                    
 !     :transient                    
@@ -59,7 +59,6 @@ module MotionMigrate
 !     :deletion_rule          
 !     :class_name            
 !     :inverse_of           
-!     :syncable            
 !     :ordered            
 !     :spotlight         
 !     :truth_file       
@@ -114,7 +113,6 @@ module MotionMigrate
             :max,
             :spotlight,
             :truth_file,
-            :syncable,
             :transient,
             :inverse_of,
             :class_name,
@@ -139,8 +137,6 @@ module MotionMigrate
               attributes[:deletionRule] = core_data_string(value)
             when :transient
               attributes[:transient] = core_data_boolean(value)
-            when :syncable
-              attributes[:syncable] = core_data_boolean(value)
             when :spotlight
               attributes[:spotlightIndexingEnabled] = core_data_boolean(value)
             when :truth_file

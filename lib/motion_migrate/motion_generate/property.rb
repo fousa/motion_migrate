@@ -15,7 +15,8 @@ module MotionMigrate
           attributes = {
             name: name,
             attributeType: core_data_string(type),
-            optional: core_data_boolean(true)
+            optional: core_data_boolean(true),
+            syncable: core_data_boolean(true)
           }
           attributes.merge!(core_data_property_attributes(type, options))
           properties[self.entity_name] = {} if properties[self.entity_name].nil?
@@ -88,7 +89,6 @@ module MotionMigrate
 !      :indexed                                 
 !      :spotlight                              
 !      :truth_file                            
-!      :syncable                             
             ERROR
           end
         end
@@ -116,8 +116,7 @@ module MotionMigrate
             :transient,
             :indexed,
             :spotlight,
-            :truth_file,
-            :syncable
+            :truth_file
           ]
           allowed_options.include?(option)
         end
@@ -133,8 +132,6 @@ module MotionMigrate
               attributes[:transient] = core_data_boolean(value)
             when :indexed
               attributes[:indexed] = core_data_boolean(value)
-            when :syncable
-              attributes[:syncable] = core_data_boolean(value)
             when :spotlight
               attributes[:spotlightIndexingEnabled] = core_data_boolean(value)
             when :truth_file

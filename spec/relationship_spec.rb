@@ -16,8 +16,7 @@ module MotionMigrate
         min: "1",
         max: "2",
         spotlight: true,
-        truth_file: true,
-        syncable: true
+        truth_file: true
       }
       @filled_allowed_attributes = {
         optional: "NO",

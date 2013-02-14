@@ -14,8 +14,7 @@ module MotionMigrate
         transient: true,
         indexed: true,
         spotlight: true,
-        truth_file: true,
-        syncable: true
+        truth_file: true
       }
       @filled_allowed_attributes = {
         optional: "NO",
@@ -31,7 +30,8 @@ module MotionMigrate
       it "should be able to define #{type}" do
         MotionMigrate::Model.property(:field, type).should == { :name => :field, 
                                                                 :attributeType => type.split("_").each{|word| word.capitalize! }.join(" "), 
-                                                                :optional=>"YES" }
+                                                                :optional=>"YES",
+                                                                :syncable => "YES" }
       end
     end
 
