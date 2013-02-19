@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="11D50" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+  <entity name="Plane" representedClassName="Plane" syncable="YES">
+    <attribute name="name" attributeType="String" optional="YES" syncable="YES"/>
+    <attribute name="multi_engine" attributeType="Boolean" optional="YES" syncable="YES" defaultValueString="NO"/>
+  </entity>
+</model>
