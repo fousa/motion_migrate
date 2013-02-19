@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+$:.unshift("/Library/RubyMotion/lib")
+require 'motion/project'
+
+require 'bundler'
+Bundler.require
+
+Motion::Project::App.setup do |app|
+  app.name = 'Motion Migrate Spec Project'
+
+  app.pods do
+    pod 'MagicalRecord', '2.1'
+  end
+end
