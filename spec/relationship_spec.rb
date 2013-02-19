@@ -13,8 +13,6 @@ module MotionMigrate
         class_name: "Test",
         inverse_of: "test",
         deletion_rule: :cascade,
-        min: "1",
-        max: "2",
         spotlight: true,
         truth_file: true
       }
@@ -25,8 +23,6 @@ module MotionMigrate
         destinationEntity: "Test",
         inverseName: "test",
         deletionRule: "Cascade",
-        minCount: "1",
-        maxCount: "2",
         spotlightIndexingEnabled: "YES",
         storedInTruthFile: "YES",
         syncable: "YES"
@@ -48,7 +44,7 @@ module MotionMigrate
     end
 
     it "should return the correct options for belongs_to" do
-      MotionMigrate::Model.belongs_to(:field, @allowed_options).should == @filled_allowed_attributes.merge({ :toMany => "NO", :name => :field })
+      MotionMigrate::Model.belongs_to(:field, @allowed_options).should == @filled_allowed_attributes.merge({ :toMany => "NO", :name => :field, :minCount => 1, :maxCount => 1 })
     end
 
     it "should return the correct options for has_many" do
