@@ -40,7 +40,20 @@ describe "properties in a model" do
     fetched_plane.first_flight_at.should == date
   end
 
-  # Check data
+  it "should set the data property on the model" do
+    reset
+    
+    new_plane = Plane.MR_createEntity
+    new_plane.flight_info.should == nil
+    flight_info = NSKeyedArchiver.archivedDataWithRootObject({ crew: ["First officer", "Last officer"] })
+    new_plane.flight_info = flight_info
+    new_plane.flight_info.should == flight_info
+    new_plane.flight_info.class.should == NSConcreteMutableData
+    save
+
+    fetched_plane = Plane.MR_findFirst
+    fetched_plane.flight_info.should == flight_info
+  end
 
   def reset
     Plane.MR_truncateAll
