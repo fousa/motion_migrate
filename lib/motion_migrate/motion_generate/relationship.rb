@@ -26,6 +26,7 @@ module MotionMigrate
             deletionRule: core_data_string(:no_action),
             syncable: core_data_boolean(true)
           }
+          attributes.merge!({ minCount: 1, maxCount: 1 }) if type == :belongs_to
           attributes.merge!(core_data_relationship_attributes(type, options))
           relationships[self.entity_name] = {} if relationships[self.entity_name].nil?
           relationships[self.entity_name][name] = attributes
