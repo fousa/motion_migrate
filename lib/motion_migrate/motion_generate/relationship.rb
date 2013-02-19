@@ -44,8 +44,6 @@ module MotionMigrate
 !                                          
 !   For type :belongs_to:                  
 !     :required                          
-!     :min                               
-!     :max                               
 !     :deletion_rule                     
 !     :class_name                        
 !     :inverse_of                        
@@ -105,13 +103,11 @@ module MotionMigrate
 
         def relationship_option_allowed?(type, option)
           allowed_options = {
-            has_many: [:ordered],
+            has_many: [:ordered, :min, :max],
           }[type] || []
 
           allowed_options += [
             :required,
-            :min,
-            :max,
             :spotlight,
             :truth_file,
             :transient,
