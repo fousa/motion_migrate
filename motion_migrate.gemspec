@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = MotionMigrate::VERSION
   gem.authors       = ["Jelle Vandebeeck"]
   gem.email         = ["jelle@fousa.be"]
-  gem.description   = %q{Easy Core Data migration from your models in RubyMotion.}
-  gem.summary       = %q{Easy Core Data migration from your models in RubyMotion.}
-  gem.homepage      = "http://fousa.be"
+  gem.description   = %q{Generate the Core Data model from your RubyMotion code.}
+  gem.summary       = %q{Generate the Core Data model from your RubyMotion code. Never open XCode again!}
+  gem.homepage      = "http://fousa.github.com/motion_migrate/"
 
   gem.files         = `git ls-files`.split($/)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
