@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="11D50" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+  <entity name="Plane" representedClassName="Plane" syncable="YES">
+    <attribute name="name" attributeType="String" optional="YES" syncable="YES"/>
+    <attribute name="multi_engine" attributeType="Boolean" optional="YES" syncable="YES" defaultValueString="NO"/>
+    <attribute name="first_flight_at" attributeType="Date" optional="YES" syncable="YES"/>
+    <attribute name="flight_info" attributeType="Binary" optional="YES" syncable="YES"/>
+    <relationship name="pilot" optional="YES" deletionRule="No Action" syncable="YES" minCount="1" maxCount="1" inverseEntity="Pilot" destinationEntity="Pilot" inverseName="plane" toMany="NO"/>
+  </entity>
+  <entity name="Pilot" representedClassName="Pilot" syncable="YES">
+    <relationship name="plane" optional="YES" deletionRule="No Action" syncable="YES" minCount="1" maxCount="1" inverseEntity="Plane" destinationEntity="Plane" inverseName="pilot" toMany="NO"/>
+  </entity>
+</model>

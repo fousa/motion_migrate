@@ -12,9 +12,10 @@ module MotionMigrate
           raise_if_property_type_not_allowed(type)
           options.each { |key, value| raise_if_property_option_not_allowed(type, key) }
 
+          attribute_type = type == :binary_data ? "Binary" : core_data_string(type)
           attributes = {
             name: name,
-            attributeType: core_data_string(type),
+            attributeType: attribute_type,
             optional: core_data_boolean(true),
             syncable: core_data_boolean(true)
           }
