@@ -5,4 +5,7 @@ class Plane < MotionMigrate::Model
   property :flight_info, :binary_data
 
   belongs_to :pilot, :class_name => "Pilot", :inverse_of => :plane
+  belongs_to :owner, :class_name => "Pilot", :inverse_of => :owned_planes
+
+  has_many :flown_by_pilots, :class_name => "Pilot", :inverse_of => :flown_planes
 end

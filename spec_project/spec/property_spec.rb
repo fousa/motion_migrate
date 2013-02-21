@@ -54,12 +54,4 @@ describe "properties in a model" do
     fetched_plane = Plane.MR_findFirst
     fetched_plane.flight_info.should == flight_info
   end
-
-  def reset
-    Plane.MR_truncateAll
-  end
-
-  def save
-    NSManagedObjectContext.contextForCurrentThread.MR_saveToPersistentStoreAndWait
-  end
 end
