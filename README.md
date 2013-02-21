@@ -1,6 +1,10 @@
-# MotionMigrate
+# Motion Migrate
 
-Easy Core Data migration from your models in RubyMotion.
+Core Data migration from your models in RubyMotion. Never open XCode again with this gem.
+
+## Why
+
+I love the [Nitron](https://github.com/mattgreen/nitron) gem created by @mattgreen. But I missed some features, and I really hate to open Xcode to create the data model. So I created some rake tasks that helped me created the Core Data model generation. Thanks to @mattgreen for starting this in the 0.3 branch of the [Nitron](https://github.com/mattgreen/nitron) project.
 
 ## Installation
 
@@ -10,7 +14,7 @@ Add this line to your Gemfile:
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
@@ -20,7 +24,21 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## Tests
+
+When contributing to this project make sure you run the tests to make sure everything keeps working like it should.
+
+Run the migration tests by executing this command from the project root:
+
+    $ rspec
+
+When you want to test the functional integration with [Magical Record](https://github.com/magicalpanda/MagicalRecord) by moving to the spec_project folder and running the specs.
+
+    $ bundle rake spec
+
 ## Contributing
+
+It would be awesome if you contribute!
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
