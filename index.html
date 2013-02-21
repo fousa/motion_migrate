@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Motion migrate by fousa</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Motion migrate</h1>
+        <p>Generate the Core Data model from your RubyMotion code. Never open XCode again!</p>
+
+        <p class="view"><a href="https://github.com/fousa/motion_migrate">View the Project on GitHub <small>fousa/motion_migrate</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/fousa/motion_migrate/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/fousa/motion_migrate/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/fousa/motion_migrate">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>I love the <a href="https://github.com/mattgreen/nitron">Nitron</a> gem created by <a href="https://github.com/mattgreen/">@mattgreen</a>. But I missed some features, and I really hate to open Xcode to create the Core Data model. So I created some rake tasks that helped me generate the Core Data model. Thanks to <a href="https://github.com/mattgreen/">@mattgreen</a> for starting this in the 0.3 branch of the <a href="https://github.com/mattgreen/nitron">Nitron</a> project.</p>
+
+<p>Another reason why I wanted to create this gem is because I love using <a href="https://github.com/magicalpanda/MagicalRecord">Magical Record</a>. This is really a great way to handle Core Data, it's like a small layer on top of it. </p>
+
+<p>Most gems that want to --railsify-- Core Data don't make correct use of the different contexts as used by Core Data. So I wanted to be able to use Core Data as it should, by just generating the model. </p>
+
+<p>Maybe adding some simplicity in creating the relationships between models will be added later. But for now, generating the Core Data model is the main goal!</p>
+
+<h2>Installation</h2>
+
+<p>The installation is simple. Just add this line to you Gemfile:</p>
+
+<div class="highlight"><pre><span class="n">gem</span> <span class="s1">'motion_migrate'</span>
+</pre></div>
+
+<p>Execute:</p>
+
+<pre><code>$ bundle install
+</code></pre>
+
+<p>And BOOM, you're on your way!</p>
+
+<h2>Usage</h2>
+
+<p>With this gem you can set every option you can while using the Xcode modelling tool. I'm not going to describe every option because I assume RubyMotion developers know how Core Data works. Here is a short list of the available options for a property:</p>
+
+<ul>
+<li>min</li>
+<li>max</li>
+<li>default</li>
+<li>regex</li>
+<li>external_storage</li>
+<li>required</li>
+<li>transient</li>
+<li>indexed</li>
+<li>spotlight</li>
+<li>truth_file</li>
+</ul><p>And of course here are the available options for the relationships (belongs to and has many):</p>
+
+<ul>
+<li>required</li>
+<li>deletion_rule</li>
+<li>class_name</li>
+<li>spotlight</li>
+<li>truth_file</li>
+<li>transient</li>
+<li>min</li>
+<li>max</li>
+<li>inverse_of</li>
+<li>ordered</li>
+</ul><p>The 'spec_project' is an example project with two models containing properties and relationships.</p>
+
+<p>But the main question is how to generate this Core Data model. Well start by extending your models from MotionMigrate::Model. This class is extended from NSManagedObject so you're ready to continue with Core Data once the model is generated.</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Plane</span> <span class="o">&lt;</span> <span class="no">MotionMigrate</span><span class="o">::</span><span class="no">Model</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Next define the properties:</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Plane</span> <span class="o">&lt;</span> <span class="no">MotionMigrate</span><span class="o">::</span><span class="no">Model</span>
+    <span class="n">property</span> <span class="ss">:name</span><span class="p">,</span>  <span class="ss">:string</span>
+    <span class="n">property</span> <span class="ss">:multi</span><span class="p">,</span> <span class="ss">:boolean</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>This will generate two properties, a name property and a multi property. To add some relationships to it, you can add a belongs_to -- rails-like-shizzle-- to the model.</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Plane</span> <span class="o">&lt;</span> <span class="no">MotionMigrate</span><span class="o">::</span><span class="no">Model</span>
+    <span class="n">property</span> <span class="ss">:name</span><span class="p">,</span>  <span class="ss">:string</span>
+    <span class="n">property</span> <span class="ss">:multi</span><span class="p">,</span> <span class="ss">:boolean</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+
+    <span class="n">belongs_to</span> <span class="ss">:pilot</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s2">"Pilot"</span><span class="p">,</span> 
+                       <span class="ss">:inverse_of</span> <span class="o">=&gt;</span> <span class="ss">:planes</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Don't forget to add a has_many or belongs_to as a reverse relationship.</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Pilot</span> <span class="o">&lt;</span> <span class="no">MotionMigrate</span><span class="o">::</span><span class="no">Model</span>
+    <span class="n">has_many</span> <span class="ss">:planes</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s2">"Plane"</span><span class="p">,</span>
+                      <span class="ss">:inverse_of</span> <span class="o">=&gt;</span> <span class="ss">:pilot</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>The relationships as defined above contain the minimal parameters you'll have to pass to the has_many or belongs_to.</p>
+
+<p>Now the most important part, migrating the model. Just run this command to generate the Core Data model from the current models.</p>
+
+<pre><code>$ rake db:migrate
+</code></pre>
+
+<p>You can also revert to a previous version of the Core Data model by running: </p>
+
+<pre><code>$ rake db:rollback
+</code></pre>
+
+<p>You can check out the other rake tasks by running:</p>
+
+<pre><code>$ rake -T
+</code></pre>
+
+<h2>Example</h2>
+
+<p>But for me, the most obvious part is an small example application that shows you how this gem is used. Check out the spec_project en run it so you can see it in action.</p>
+
+<h2>Todo</h2>
+
+<p>This is certainly not the end, still got a lot to do.</p>
+
+<ul>
+<li>Better version generation. (shouldn't always generate a new version unless told to do so)</li>
+<li>Clean up the utility methods.</li>
+<li>Implement <a href="https://github.com/rentzsch/mogenerator">mogenerator</a> functionality.</li>
+<li>Add &lt;&lt; functionatlity to the relationships in orde to add objects.</li>
+<li>Try to handle relationships in a more Ruby on Railzy way.</li>
+</ul><h2>License</h2>
+
+<p>Copyright (c) 2013 Jelle Vandebeeck</p>
+
+<p>MIT License</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/fousa">fousa</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
