@@ -6,6 +6,12 @@ Generate the Core Data model from your RubyMotion code. Never open XCode again!
 
 I love the [Nitron](https://github.com/mattgreen/nitron) gem created by [@mattgreen](https://github.com/mattgreen/). But I missed some features, and I really hate to open Xcode to create the Core Data model. So I created some rake tasks that helped me generate the Core Data model. Thanks to [@mattgreen](https://github.com/mattgreen/) for starting this in the 0.3 branch of the [Nitron](https://github.com/mattgreen/nitron) project.
 
+Another reason why I wanted to create this gem is because I love using [Magical Record](https://github.com/magicalpanda/MagicalRecord). This is really a great way to handle Core Data, it's like a small layer on top of it. 
+
+Most gems that want to --railsify-- Core Data don't make correct use of the different contexts as used by Core Data. So I wanted to be able to use Core Data as it should, by just generating the model. 
+
+Maybe adding some simplicity in creating the relationships between models will be added later. But for now, generating the Core Data model is the main goal!
+
 ## Installation
 
 The installation is simple. Just add this line to you Gemfile:
@@ -48,13 +54,13 @@ And of course here are the available options for the relationships (belongs to a
 
 The 'spec_project' is an example project with two models containing properties and relationships.
 
-But the main question is how to generate this Core Data model. Well start by defining the properties.
+But the main question is how to generate this Core Data model. Well start by extending your models from MotionMigrate::Model. This class is extended from NSManagedObject so you're ready to continue with Core Data once the 
+model is generated.
 
     class Plane < MotionMigrate::Model
-      property :name,  :string
-      property :multi, :boolean, :default => false
     end
 
+Next define the properties:
 This will generate two properties, a name property and a multi property. To add some relationships to it, you can add a belongs\_to -- rails-like-shizzle-- to the model.
 
     class Plane < MotionMigrate::Model
