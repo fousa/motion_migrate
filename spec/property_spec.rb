@@ -28,8 +28,10 @@ module MotionMigrate
 
     %w(string integer_16 integer_32 integer_64 decimal double float date binary_data boolean).each do |type|
       it "should be able to define #{type}" do
+        type_string = type.split("_").each{|word| word.capitalize! }.join(" ")
+        type_string = "Binary" if type == "binary_data"
         MotionMigrate::Model.property(:field, type).should == { :name => :field, 
-                                                                :attributeType => type.split("_").each{|word| word.capitalize! }.join(" "), 
+                                                                :attributeType => type_string, 
                                                                 :optional=>"YES",
                                                                 :syncable => "YES" }
       end
@@ -89,7 +91,7 @@ module MotionMigrate
         external_storage: true
       })
       MotionMigrate::Model.property(:field, :binary_data, options).should == @filled_allowed_attributes.merge({ :name => :field, 
-                                                                                                                :attributeType => "Binary Data",
+                                                                                                                :attributeType => "Binary",
                                                                                                                 :allowsExternalBinaryDataStorage => "YES" })
     end
 
