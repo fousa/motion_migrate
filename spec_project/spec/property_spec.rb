@@ -54,4 +54,23 @@ describe "properties in a model" do
     fetched_plane = Plane.MR_findFirst
     fetched_plane.flight_info.should == flight_info
   end
+
+  it 'should set the transformable property on the model' do
+    reset
+
+    new_pilot = Pilot.MR_createEntity
+    new_pilot.profile.should == nil
+
+    profile = { nickname: 'Chuck'}
+
+    new_pilot.name    = 'Chuck Yeager'
+    new_pilot.profile = profile
+
+    save
+
+    fetched_pilot = Pilot.MR_findFirst
+
+    fetched_pilot.profile.should == profile
+    fetched_pilot.profile.class.should == Hash
+  end
 end
