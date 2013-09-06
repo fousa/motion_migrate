@@ -26,7 +26,7 @@ module MotionMigrate
       }
     end
 
-    %w(string integer_16 integer_32 integer_64 decimal double float date binary_data boolean).each do |type|
+    %w(string integer_16 integer_32 integer_64 decimal double float date binary_data boolean transformable).each do |type|
       it "should be able to define #{type}" do
         type_string = type.split("_").each{|word| word.capitalize! }.join(" ")
         type_string = "Binary" if type == "binary_data"
@@ -37,12 +37,12 @@ module MotionMigrate
       end
     end
 
-    it "should error on undiffened types" do
+    it "should error on undefined types" do
       lambda { MotionMigrate::Model.property(:field, :unknown) }.should raise_error
     end
 
-    %w(string integer_16 integer_32 integer_64 decimal double float date binary_data boolean).each do |type|
-      it "should error on undiffened options for #{type}" do
+    %w(string integer_16 integer_32 integer_64 decimal double float date binary_data boolean transformable).each do |type|
+      it "should error on undefined options for #{type}" do
         lambda { MotionMigrate::Model.property(:field, type, :unknown => true) }.should raise_error
       end
     end
