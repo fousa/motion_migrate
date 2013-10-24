@@ -1,5 +1,5 @@
 module MotionMigrate
-  module MotionGenerate 
+  module MotionGenerate
     module Parser
       def self.included(base)
         base.extend(ClassMethods)

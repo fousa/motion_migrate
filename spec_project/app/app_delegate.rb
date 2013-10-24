@@ -13,7 +13,7 @@ class AppDelegate
     navigation_controller = UINavigationController.alloc.initWithRootViewController(controller)
     @window.rootViewController = navigation_controller
     @window.makeKeyAndVisible
-    
+
     true
   end
 

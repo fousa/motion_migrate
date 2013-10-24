@@ -1,5 +1,5 @@
 module MotionMigrate
-  module MotionGenerate 
+  module MotionGenerate
     module Property
       def self.included(base)
         base.extend(ClassMethods)
@@ -32,75 +32,80 @@ module MotionMigrate
         def raise_if_property_type_not_allowed(type)
           unless property_type_allowed?(type)
             raise <<-ERROR
-! The type must be one of the following: 
-!  :string                   
-!  :integer_16                
-!  :integer_32                 
-!  :integer_64                  
-!  :decimal                      
-!  :double                        
-!  :float                          
-!  :boolean                          
-!  :date                            
-!  :binary_data                       
+! The type must be one of the following:
+!  :string
+!  :integer_16
+!  :integer_32
+!  :integer_64
+!  :decimal
+!  :double
+!  :float
+!  :boolean
+!  :date
+!  :binary_data
+!  :transformable
             ERROR
           end
         end
 
         def property_type_allowed?(type)
           [
-            :string, 
-            :integer_16, 
-            :integer_32, 
-            :integer_64, 
-            :decimal, 
-            :double, 
-            :float, 
-            :boolean, 
-            :date, 
-            :binary_data 
+            :string,
+            :integer_16,
+            :integer_32,
+            :integer_64,
+            :decimal,
+            :double,
+            :float,
+            :boolean,
+            :date,
+            :binary_data,
+            :transformable
           ].include?(type)
         end
 
         def raise_if_property_option_not_allowed(type, option)
           unless property_option_allowed?(type, option)
             raise <<-ERROR
-! The option must be one of the following:                                              
+! The option must be one of the following:
 !
-!   For type :string:                                                                  
-!     :min                                                                    
-!     :max                                                                     
-!     :default                                                                  
-!     :regex                                                                     
+!   For type :string:
+!     :min
+!     :max
+!     :default
+!     :regex
 !
-!   For type :boolean:                                                            
-!      :default                                                                    
+!   For type :boolean:
+!      :default
 !
-!   For type :date, :integer_16, :integer_32, :integer_64, :decimal, :double or :float: 
-!      :min                           
-!      :max                            
-!      :default                         
+!   For type :date, :integer_16, :integer_32, :integer_64, :decimal, :double or :float:
+!      :min
+!      :max
+!      :default
 !
-!   For type :binary_data:               
-!      :external_storage                  
+!   For type :binary_data:
+!      :external_storage
 !
-!   Options allowed for all types:         
-!      :required                            
-!      :transient                                
-!      :indexed                                 
-!      :spotlight                              
-!      :truth_file                            
+!   For type :transformable:
+!      :transformer_name
+!
+!   Options allowed for all types:
+!      :required
+!      :transient
+!      :indexed
+!      :spotlight
+!      :truth_file
             ERROR
           end
         end
 
         def property_option_allowed?(type, option)
           type = :number if [
-            :integer_16, 
-            :integer_32, 
-            :integer_64, 
-            :decimal, 
-            :double, 
+            :integer_16,
+            :integer_32,
+            :integer_64,
+            :decimal,
+            :double,
             :float,
             :date
           ].include?(type)
@@ -109,7 +114,8 @@ module MotionMigrate
             number: [:min, :max, :default],
             string: [:min, :max, :default, :regex],
             boolean: [:default],
-            binary_data: [:external_storage]
+            binary_data: [:external_storage],
+            transformable: [:transformer_name]
           }[type]
 
           allowed_options += [
@@ -161,6 +167,8 @@ module MotionMigrate
               attributes[:regularExpressionString] = value
             when :external_storage
               attributes[:allowsExternalBinaryDataStorage] = core_data_boolean(value)
+            when :transformer_name
+              attributes[:valueTransformerName] = value
             end
           end
           attributes
